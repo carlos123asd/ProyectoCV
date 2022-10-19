@@ -6,17 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class RegistroController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([
+       /* $this->middleware([
             "guest"
         ]);
 
         $this->middleware("auth")->only("index"); //uno, acepta array y cadena
-        $this->middleware("auth")->except("index"); //todos excepto uno, acepta array y cadena
+        $this->middleware("auth")->except("index"); //todos excepto uno, acepta array y cadena*/
     }
 
     public function index()
@@ -51,7 +52,11 @@ class RegistroController extends Controller
         if(auth()->attempt($request->only("email","password"))){ //intento de auth y genera sesion
             return redirect()->route("usuario.home");
         }else{
-            dd("qwerty");
+            Session::flash("mensaje",__("message.usuario_session_error"));
+            return redirect()->back();
         }
     } 
 }
+//Solucionar traduccion HECHO
+//Vincular estudios y experiencias con user HECHO
+//crud de estudios y experiencias para los auth

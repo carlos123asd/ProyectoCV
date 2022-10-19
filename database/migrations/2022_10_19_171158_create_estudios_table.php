@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('experiencias', function (Blueprint $table) {
+        Schema::create('estudios', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");
-            $table->text("descripcion");
-            $table->dateTime("fecha_inicio");
-            $table->dateTime("fecha_fin")->nullable();
+            $table->string("grado");
+            $table->dateTime("fecha_inicial");
+            $table->dateTime("fecha_final")->nullable();
+            $table->foreignId("id_user")->constrained("estudios");
             $table->timestamps();
-            $table->foreignId("empresa_id")->constrained("empresas");
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('experiencias');
+        Schema::dropIfExists('estudios');
     }
 };

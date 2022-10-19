@@ -6,6 +6,7 @@ use App\Http\Controllers\ExperienciasController;
 use App\Http\Controllers\HolaController;
 use App\Http\Controllers\NotasController;
 use App\Http\Controllers\Usuario\RegistroController;
+use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,7 @@ Route::post("/notas", [NotasController::class,"calcularnotas"]);
 //Experiencia
 Route::get("/crear",[ExperienciasController::class,'crear']);
 Route::get("/actualizar/{id}/{nombre}",[ExperienciasController::class,'actualizar']);
-Route::get("/experiencias",[ExperienciasController::class,'index']);
+Route::get("/experiencias",[ExperienciasController::class,'index'])->name("experiencia.tabla");
 
 //Estudios
 /*Route::group(["prefix"=>"/estudios"],function(){
@@ -67,12 +68,11 @@ Route::group(["prefix"=>"/empresas"],function(){
 Route::group(["prefix"=>"/usuario"],function(){
     Route::get("/",[RegistroController::class,"index"])->name("usuario.registro");
     Route::get("/iniciar",[RegistroController::class,"index_iniciar"])->name("usuario.inicio");
-    Route::post("/registrar/{id?}",[RegistroController::class,"agregar_usuario"])->name("usuario.registrar");
     Route::post("/inicio",[RegistroController::class,"iniciar_sesion"])->name("usuario.iniciar");
+    Route::post("/registrar/{id?}",[RegistroController::class,"agregar_usuario"])->name("usuario.registrar")->middleware("auth");
     Route::view("/home","recurso.index")->name("usuario.home")->middleware("auth");
+    Route::get("/cerrar_sesion",[UsuarioController::class,"cerrar_sesion"])->name("usuario.cerrar_sesion")->middleware("auth");
 });
 
-//En home se muestre una cosa u otra dependiendo de si hay sesion o no
-//Crear menu -> enlazar rutas existentes
-//usar middleware
-//Menu que tenga boton de cerrar sesion
+
+
