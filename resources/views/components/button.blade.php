@@ -1,1 +1,1 @@
-<button type="{{$type}}" class="btn btn-{{$color}}">{{__('message.'.$value)}}</button>
+<button @if(@isset($onclick))onclick="{{$onclick}}"@endif type="{{$type}}" class="btn btn-{{$color}}">{{__('message.'.$value)}}</button>

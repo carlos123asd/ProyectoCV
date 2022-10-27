@@ -34,9 +34,14 @@ Route::get("/notas/{nota?}/{resultado?}", [NotasController::class,"index"])->nam
 Route::post("/notas", [NotasController::class,"calcularnotas"]);
 
 //Experiencia
-Route::get("/crear",[ExperienciasController::class,'crear']);
-Route::get("/actualizar/{id}/{nombre}",[ExperienciasController::class,'actualizar']);
-Route::get("/experiencias",[ExperienciasController::class,'index'])->name("experiencia.tabla");
+Route::group(["prefix"=>"/experiencias"], function(){
+    Route::get("/",[ExperienciasController::class,'index'])->name("experiencia.tabla");
+    Route::get("/crearview",[ExperienciasController::class,'index_crear'])->name("experiencia.viewcrear");
+    Route::post("/crear",[ExperienciasController::class,'crear'])->name("experiencia.crear");
+    Route::get("/actualizar/{id}",[ExperienciasController::class,'actualizar'])->name("experiencia.actualizar");
+    Route::delete("/eliminar",[ExperienciasController::class,'eliminar'])->name("experiencia.eliminar");
+});
+
 
 //Estudios
 /*Route::group(["prefix"=>"/estudios"],function(){
@@ -69,10 +74,7 @@ Route::group(["prefix"=>"/usuario"],function(){
     Route::get("/",[RegistroController::class,"index"])->name("usuario.registro");
     Route::get("/iniciar",[RegistroController::class,"index_iniciar"])->name("usuario.inicio");
     Route::post("/inicio",[RegistroController::class,"iniciar_sesion"])->name("usuario.iniciar");
-    Route::post("/registrar/{id?}",[RegistroController::class,"agregar_usuario"])->name("usuario.registrar")->middleware("auth");
+    Route::post("/registrar",[RegistroController::class,"agregar_usuario"])->name("usuario.registrar");
     Route::view("/home","recurso.index")->name("usuario.home")->middleware("auth");
     Route::get("/cerrar_sesion",[UsuarioController::class,"cerrar_sesion"])->name("usuario.cerrar_sesion")->middleware("auth");
 });
-
-
-

@@ -9,6 +9,19 @@ class Experiencia extends Model
 {
     use HasFactory;
     protected $table = "experiencias";
+    protected $fillable = [
+        'nombre',
+        'descripcion',
+        'empresa_id',
+        'id_user',
+        'fecha_inicio',
+        'fecha_fin'
+    ];
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin' => 'datetime'
+    ];
+    
 
     public function empresa()
     {

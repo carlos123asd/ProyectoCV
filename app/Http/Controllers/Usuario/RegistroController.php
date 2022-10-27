@@ -32,8 +32,10 @@ class RegistroController extends Controller
     public function agregar_usuario(Request $request){ //validar
         $this->validate($request,[ //comprueba si ya hay un email en bbdd
             "email"=> "required|unique:users",
+            "password"=>"required",
+            "name"=>"required",
             "surname"=> "required"
-    ]);
+        ]);
         User::create([
             "email"=>$request->email,
             "password"=>Hash::make($request->password),
@@ -45,10 +47,10 @@ class RegistroController extends Controller
     
 
     public function iniciar_sesion(Request $request){
-        $this->validate($request,[
+       /* $this->validate($request,[
             "email"=>"required",
             "password"=>"required"
-        ]);
+        ]);*/
         if(auth()->attempt($request->only("email","password"))){ //intento de auth y genera sesion
             return redirect()->route("usuario.home");
         }else{
