@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("grado");
             $table->dateTime("fecha_inicial");
             $table->dateTime("fecha_final")->nullable();
-            $table->foreignId("id_user")->constrained("estudios");
+            $table->foreignId("id_user")->constrained("users");
             $table->timestamps();
         });
     }

@@ -36,23 +36,12 @@ Route::post("/notas", [NotasController::class,"calcularnotas"]);
 //Experiencia
 Route::group(["prefix"=>"/experiencias"], function(){
     Route::get("/",[ExperienciasController::class,'index'])->name("experiencia.tabla");
-    Route::get("/crearview",[ExperienciasController::class,'index_crear'])->name("experiencia.viewcrear");
+    Route::get("/crearview/{id?}",[ExperienciasController::class,'index_crear'])->name("experiencia.viewcrear");
+    Route::get("/actualizarview/{id}",[ExperienciasController::class,'index_actualizar'])->name("experiencia.viewactualizar");
     Route::post("/crear",[ExperienciasController::class,'crear'])->name("experiencia.crear");
-    Route::get("/actualizar/{id}",[ExperienciasController::class,'actualizar'])->name("experiencia.actualizar");
+    Route::post("/actualizar/{id}",[ExperienciasController::class,'actualizar'])->name("experiencia.actualizar");
     Route::delete("/eliminar",[ExperienciasController::class,'eliminar'])->name("experiencia.eliminar");
 });
-
-
-//Estudios
-/*Route::group(["prefix"=>"/estudios"],function(){
-    Route::get("/crear", function(){
-        return view("educacion.crear",["estudio"=>null]);
-    });
-    Route::get("/",[EstudiosController::class,'index']);
-    Route::get("/editar/{id}",[EstudiosController::class,"editar"])->name("educacion.modificar");
-    Route::post("/create",[EstudiosController::class,'crear'])->name("educacion.create");
-    Route::post("/edit/{id}",[EstudiosController::class,'actualizar'])->name("educacion.edit");
-});*/
 
 Route::group(["prefix"=>"/estudios"], function(){
     Route::get("/",[EstudiosController::class,"index"])->name("educacion.lista");
@@ -60,7 +49,7 @@ Route::group(["prefix"=>"/estudios"], function(){
     Route::post("/create",[EstudiosController::class,"crear"])->name("educacion.create");
     Route::post("/modificar/{id}",[EstudiosController::class,"actualizar"])->name("educacion.modificar");
     Route::get("/editar/{id}",[EstudiosController::class,"editar"])->name("educacion.editar");
-    Route::get("/eliminar/{id?}",[EstudiosController::class,"eliminar"])->name("educacion.eliminar");
+    Route::delete("/eliminar",[EstudiosController::class,"eliminar"])->name("educacion.eliminar");
 });
 
 
@@ -75,6 +64,22 @@ Route::group(["prefix"=>"/usuario"],function(){
     Route::get("/iniciar",[RegistroController::class,"index_iniciar"])->name("usuario.inicio");
     Route::post("/inicio",[RegistroController::class,"iniciar_sesion"])->name("usuario.iniciar");
     Route::post("/registrar",[RegistroController::class,"agregar_usuario"])->name("usuario.registrar");
+    Route::get("/generar",[RegistroController::class,"generar_informe"])->name("usuario.generar");
     Route::view("/home","recurso.index")->name("usuario.home")->middleware("auth");
     Route::get("/cerrar_sesion",[UsuarioController::class,"cerrar_sesion"])->name("usuario.cerrar_sesion")->middleware("auth");
 });
+
+
+//aplicar los plurales -> 1 en singular 0 en plural y 3 varios = plural  HECHO
+
+/*De que manera se puede autogenerar todos los archivos necesarios para un modelo (crear)
+ Respuesta=> podemnos acompañar el make o alguna sentencia contructiva mediante argumentos simplicados, por ejemplo:
+ - php artisan make:model -acf...(las que queramos)
+ -a(all:migration,seeder,factory,policy,resource controller,clases para el modelo)
+ -c(controller)
+ -f(factory)
+ -m(migration)
+*/ //HECHO
+
+//aplicar como automatizar la informacion (nutrirla) una base de datos
+//como volcar informacion de una base de datos a un archivo

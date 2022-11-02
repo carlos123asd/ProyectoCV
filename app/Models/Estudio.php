@@ -14,4 +14,16 @@ class Estudio extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $fillable = [
+        'nombre',
+        'grado',
+        'id_user',
+        'fecha_inicial',
+        'fecha_final'
+    ];
+    protected $casts = [
+        'fecha_inicial' => 'datetime',
+        'fecha_final' => 'datetime'
+    ];
 }

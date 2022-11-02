@@ -1,73 +1,62 @@
     @extends("layouts.base")
     @section("title","estudios")
     @section("content")
+        <br>
+        <table>
+            <tr>
+                @if(count($estudios) == 0)
+                    <th>{{trans_choice("message.valor_estudio",0)}}</th>
+                @elseif(count($estudios) == 1)
+                    <th>{{trans_choice("message.valor_estudio",1)}}</th>
+                @elseif(count($estudios) > 1)
+                <th>{{trans_choice("message.valor_estudio",2)}}</th>
+                @endif
+                    <th>Grado</th>
+                    <th>Nombre</th>
+                    <th></th>
+                    <th></th>
+            </tr>
+            @foreach($estudios as $estudio)
+                <tr>
+                    <td></td>
+                    <td>{{$estudio->nombre}}</td>
+                    <td>{{$estudio->grado}}</td>
+                    <td>@include("components.button",["onclick"=>"eliminar(".$estudio->id.")","type"=>"button","color"=>"danger","value"=>"valor_boton_eliminar"])</td>
+                    <td><a class="btn btn-primary" href="{{route('educacion.editar',["id"=>$estudio->id])}}">{{__('message.valor_boton_modificar')}}</a></td>
+                </tr>
+            @endforeach
+        </table>
+        
+            <a class="btn btn-success" href="{{route('educacion.crear')}}">{{__('message.valor_boton_crear')}}</a>
 
-    <h1>Estudios</h1>
-    <br>
-    <table>
-        <tr>
-            <th>Grado</th>
-            <th>Nombre</th>
-            <th></th>
-            <th></th>
-        </tr>
-        @foreach($estudios as $estudio)
-        <tr>
-            <td>{{ $estudio->grado }}</td>
-            <td>{{ $estudio->nombre }}</td> 
-            <td><a href="{{route('educacion.editar',['id'=> $estudio->id])}}">Modificar</a></td>
-            <!--  <td><a href="{{ route('educacion.eliminar', ['id'=>$estudio->id]) }}">Eliminar</a></td> -->
-            <td><button onclick="eliminarDato({{ $estudio->id }})">Eliminar</button></td> {{-- educacion.eliminar --}} 
-        </tr>
-        @endforeach
-    </table>
-    <div id="resultado"></div>
-    
-   {{-- <a href="{{ route('estudios.actualizar',['id'=>$estudio->id]) }}">Actualizar</a>
-    <a href="{{ route('educacion.eliminar', ['id'=>$estudio->id]) }}">Eliminar</a> <!--setear id-->
-    --}}
-   
+            @if(count($estudios) == 0)
+            {{"(".trans_choice("message.valor_count_estudio",0,["count"=>count($estudios)]).")"}}
+            @elseif(count($estudios) == 1)
+            {{"(".trans_choice("message.valor_count_estudio",1,["count"=>count($estudios)]).")"}}
+            @elseif(count($estudios) > 1)
+            {{"(".trans_choice("message.valor_count_estudio",2,["count"=>count($estudios)]).")"}}
+            @endif
+    @endsection
+
+    @section("js")
     <script>
-        function objetoAjax(){
-            var xmlhttp=false;
-            try {
-            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-            } catch (e) {
-            try {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (E) {
-            xmlhttp = false;
-            }
-            }
-            if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-            xmlhttp = new XMLHttpRequest();
-            }
-            return xmlhttp;
-        }
-
-        function eliminarDato(ideducacion){
-            //donde se mostrará el resultado de la eliminacion
-            divResultado = document.getElementById('resultado');
-            //usaremos un cuadro de confirmacion
-            var eliminar = confirm("De verdad desea eliminar este dato?")
-            if ( eliminar ) {
-                //instanciamos el objetoAjax
-                ajax=objetoAjax();
-                //uso del medotod GET
-                //indicamos el archivo que realizará el proceso de eliminación
-                //junto con un valor que representa el id del empleado
-                ajax.open("GET", "{{ route('educacion.eliminar') }}/"+ideducacion);
-                ajax.onreadystatechange=function() {
-                    if (ajax.readyState==4) {
-                        //mostrar resultados en esta capa
-                       location.reload();
+        function eliminar(id)
+        {
+            var res = confirm("Deseas eliminar este estudio");
+            if(res){
+                jQuery.ajax({
+                    url:"{{route('educacion.eliminar')}}",
+                    method:"DELETE",
+                    success:function(){
+                        location.reload();
+                    },
+                    data:{
+                        id:id,
+                        _token: "{{csrf_token()}}" ////como pasar el csrf por ajax 
                     }
-                }
-                //como hacemos uso del metodo GET
-                //colocamos null
-                ajax.send(null)
+                })
             }
         }
     </script>
+    @endsection
 
-@endsection

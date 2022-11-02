@@ -9,6 +9,13 @@
     <title>CV-@yield("title")</title>
 </head>
 <body>
+    <style>
+        .space_but{
+            margin-left: 5px;
+        }
+    </style>
+
+
     @auth
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <div class="container-fluid">
@@ -22,10 +29,10 @@
                         <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{route('educacion.lista')}}">Estudios</a>
+                        <a class="nav-link" aria-current="page" href="{{route('educacion.lista')}}">{{trans_choice("message.valor_estudio",2)}}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{route('experiencia.tabla')}}">Experiencia</a>
+                        <a class="nav-link" aria-current="page" href="{{route('experiencia.tabla')}}">{{trans_choice("message.valor_experiencia",2)}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Perfil</a>
@@ -34,7 +41,8 @@
                         <a class="nav-link" href="#">{{auth()->user()->email}}</a>
                     </li>
                 </ul>
-                <a class="btn btn-outline-success" href="{{route('usuario.cerrar_sesion')}}">Cerrar Sesion</a>
+                <a class="btn btn-outline-success" href="{{route('usuario.generar')}}">{{__("message.generar")}}</a>
+                <a class="btn btn-outline-success space_but" href="{{route('usuario.cerrar_sesion')}}">{{__("message.cerrar_sesion")}}</a>
             </div>
             </div>
         </nav>
@@ -50,7 +58,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{route('usuario.registrar')}}">Registrarse</a>
+                    <a class="nav-link active" aria-current="page" href="{{route('usuario.registro')}}">Registrarse</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('usuario.inicio')}}">Iniciar Sesion</a>

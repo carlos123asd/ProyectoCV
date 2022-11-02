@@ -2,7 +2,7 @@
     <label for="{{$type}}-{{$name}}" class="form-label">{{$label}}</label>
     <select name="{{$name}}" id="{{$type}}-{{$name}}">
         @foreach($valores as $valor)
-        <option value="{{$valor->id}}" selected="{{$selected}}">{{$valor->nombre}}</option>
+        <option value="{{$valor}}" selected="{{$selected}}">{{$valor}}</option>
         @endforeach
     </select>
 </div>
